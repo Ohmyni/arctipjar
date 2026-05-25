@@ -4,13 +4,13 @@ const fields = [
   {
     id: "username",
     label: "Username",
-    placeholder: "mokondo",
+    placeholder: "arc",
     helper: "Your public page will use this handle.",
   },
   {
     id: "displayName",
     label: "Display name",
-    placeholder: "Mokondo",
+    placeholder: "Arc",
     helper: "Shown at the top of your creator card.",
   },
   {
@@ -36,7 +36,7 @@ export default function CreatePage() {
             ArcTipJar
           </Link>
           <Link
-            href="/mokondo"
+            href="/arc"
             className="rounded-lg border border-white/15 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10"
           >
             Preview demo

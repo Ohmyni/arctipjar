@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const navLinks = [
   { label: "Create", href: "/create" },
-  { label: "Demo", href: "/mokondo" },
+  { label: "Demo", href: "/arc" },
   { label: "Dashboard", href: "/dashboard" },
 ];
 
@@ -109,7 +109,7 @@ export default function Home() {
               Create tip jar
             </Link>
             <Link
-              href="/mokondo"
+              href="/arc"
               className="rounded-lg border border-white/15 px-6 py-3 text-center font-semibold text-white transition hover:border-cyan-300/50 hover:bg-white/10"
             >
               View sample jar
@@ -122,11 +122,11 @@ export default function Home() {
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-cyan-300 text-2xl font-black text-slate-950">
-                  M
+                  A
                 </div>
                 <div>
                   <p className="text-sm text-cyan-200">Featured creator</p>
-                  <h2 className="mt-1 text-2xl font-bold">@mokondo</h2>
+                  <h2 className="mt-1 text-2xl font-bold">@arc</h2>
                   <p className="text-sm text-slate-400">Arc ecosystem notes</p>
                 </div>
               </div>

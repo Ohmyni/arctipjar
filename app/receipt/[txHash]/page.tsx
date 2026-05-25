@@ -9,7 +9,7 @@ type ReceiptPageProps = {
 const receiptRows = [
   { label: "Amount", value: "5 USDC" },
   { label: "Sender", value: "Demo supporter" },
-  { label: "Recipient", value: "@mokondo" },
+  { label: "Recipient", value: "@arc" },
   { label: "Status", value: "Confirmed on Arc" },
 ];
 
@@ -24,7 +24,7 @@ export default async function ReceiptPage({ params }: ReceiptPageProps) {
             ArcTipJar
           </Link>
           <Link
-            href="/mokondo"
+            href="/arc"
             className="rounded-lg border border-white/15 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10"
           >
             View jar
