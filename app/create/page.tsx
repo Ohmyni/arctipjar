@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ConnectWalletButton } from "@/components/connect-wallet-button";
 
 const fields = [
   {
@@ -35,12 +36,15 @@ export default function CreatePage() {
           <Link href="/" className="font-bold text-white">
             ArcTipJar
           </Link>
-          <Link
-            href="/arc"
-            className="rounded-lg border border-white/15 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10"
-          >
-            Preview demo
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/arc"
+              className="hidden rounded-lg border border-white/15 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10 sm:inline-flex"
+            >
+              Preview demo
+            </Link>
+            <ConnectWalletButton />
+          </div>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
@@ -54,6 +58,9 @@ export default function CreatePage() {
             <p className="mt-4 max-w-xl text-lg leading-8 text-slate-300">
               Set up a polished public page for receiving USDC tips on Arc.
               This MVP is demo-only, so the form does not save data yet.
+            </p>
+            <p className="mt-4 rounded-lg border border-cyan-300/20 bg-cyan-300/10 p-4 text-sm leading-6 text-cyan-50">
+              Wallet connection is enabled, USDC tipping is coming next.
             </p>
 
             <div className="mt-8 rounded-lg border border-cyan-300/20 bg-cyan-300/10 p-5">

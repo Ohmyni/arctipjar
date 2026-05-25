@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ConnectWalletButton } from "@/components/connect-wallet-button";
 
 type TipPageProps = {
   params: Promise<{
@@ -19,12 +20,15 @@ export default async function TipPage({ params }: TipPageProps) {
           <Link href="/" className="font-bold">
             ArcTipJar
           </Link>
-          <Link
-            href="/create"
-            className="rounded-lg border border-white/15 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10"
-          >
-            Create your jar
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/create"
+              className="hidden rounded-lg border border-white/15 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10 sm:inline-flex"
+            >
+              Create your jar
+            </Link>
+            <ConnectWalletButton />
+          </div>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
@@ -114,12 +118,13 @@ export default async function TipPage({ params }: TipPageProps) {
 
             <button
               type="button"
-              className="mt-5 w-full rounded-lg bg-cyan-300 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-200"
+              disabled
+              className="mt-5 w-full cursor-not-allowed rounded-lg bg-cyan-300/70 px-5 py-3 font-semibold text-slate-950"
             >
               Send tip
             </button>
             <p className="mt-4 rounded-lg border border-white/10 bg-slate-950/70 p-3 text-center text-sm text-slate-400">
-              Wallet payments are coming soon. This button is a frontend demo.
+              Wallet connection is enabled, USDC tipping is coming next.
             </p>
           </section>
         </div>

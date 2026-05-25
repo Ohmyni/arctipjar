@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ConnectWalletButton } from "@/components/connect-wallet-button";
 
 const navLinks = [
   { label: "Create", href: "/create" },
@@ -80,12 +81,7 @@ export default function Home() {
               </Link>
             ))}
           </div>
-          <Link
-            href="/create"
-            className="rounded-lg bg-cyan-300 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200"
-          >
-            Start
-          </Link>
+          <ConnectWalletButton />
         </nav>
       </header>
 

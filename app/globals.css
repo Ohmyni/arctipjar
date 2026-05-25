@@ -24,3 +24,9 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.wallet-connect-button [data-rk] button,
+.wallet-connect-button button {
+  border-radius: 0.5rem;
+  font-weight: 700;
+}

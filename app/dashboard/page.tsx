@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ConnectWalletButton } from "@/components/connect-wallet-button";
 
 const stats = [
   { label: "Total received", value: "0 USDC", detail: "Settled tips" },
@@ -16,12 +17,15 @@ export default function DashboardPage() {
           <Link href="/" className="font-bold">
             ArcTipJar
           </Link>
-          <Link
-            href="/create"
-            className="rounded-lg bg-cyan-300 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200"
-          >
-            Create jar
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/create"
+              className="hidden rounded-lg bg-cyan-300 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200 sm:inline-flex"
+            >
+              Create jar
+            </Link>
+            <ConnectWalletButton />
+          </div>
         </div>
 
         <section className="mb-8">
@@ -34,6 +38,9 @@ export default function DashboardPage() {
           <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-300">
             Onchain tip history will appear here once wallet payments are
             connected.
+          </p>
+          <p className="mt-4 inline-flex rounded-lg border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 text-sm text-cyan-50">
+            Wallet connection is enabled, USDC tipping is coming next.
           </p>
         </section>
 
