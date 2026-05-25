@@ -44,6 +44,9 @@ export default function DashboardPage() {
             Onchain tip history will appear here once wallet payments are
             connected.
           </p>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">
+            Onchain event history will be added next.
+          </p>
           <p className="mt-4 inline-flex rounded-lg border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 text-sm text-cyan-50">
             Wallet connection is enabled, USDC tipping is coming next.
           </p>

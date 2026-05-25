@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ARC_EXPLORER_URL } from "@/lib/contracts";
 
 type ReceiptPageProps = {
   params: Promise<{
@@ -6,15 +7,9 @@ type ReceiptPageProps = {
   }>;
 };
 
-const receiptRows = [
-  { label: "Amount", value: "5 USDC" },
-  { label: "Sender", value: "Demo supporter" },
-  { label: "Recipient", value: "@arc" },
-  { label: "Status", value: "Confirmed on Arc" },
-];
-
 export default async function ReceiptPage({ params }: ReceiptPageProps) {
   const { txHash } = await params;
+  const explorerUrl = `${ARC_EXPLORER_URL}/tx/${txHash}`;
 
   return (
     <main className="min-h-screen bg-[#06111f] px-6 py-10 text-white">
@@ -37,40 +32,32 @@ export default async function ReceiptPage({ params }: ReceiptPageProps) {
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-200">
                 Tip receipt
               </p>
-              <h1 className="mt-3 text-4xl font-bold">Receipt confirmed</h1>
+              <h1 className="mt-3 text-4xl font-bold">Transaction submitted</h1>
               <p className="mt-3 max-w-xl text-slate-300">
-                This demo receipt shows how ArcTipJar will display confirmed
-                onchain tips after wallet payments are connected.
+                This receipt links to the Arc Testnet transaction hash returned
+                by the wallet flow.
               </p>
             </div>
             <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-sm font-semibold text-emerald-200">
-              Confirmed on Arc
+              Arc Testnet
             </span>
           </div>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            {receiptRows.map((row) => (
-              <div key={row.label} className="rounded-lg bg-slate-950/70 p-4">
-                <p className="text-sm text-slate-400">{row.label}</p>
-                <p className="mt-2 font-semibold">{row.value}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-4 rounded-lg bg-slate-950/70 p-4">
+          <div className="mt-6 rounded-lg bg-slate-950/70 p-4">
             <p className="text-sm text-slate-400">Transaction hash</p>
             <p className="mt-2 break-all font-mono text-sm text-cyan-100">
               {txHash}
             </p>
           </div>
 
-          <button
-            type="button"
-            disabled
-            className="mt-6 w-full cursor-not-allowed rounded-lg border border-white/10 bg-white/5 px-5 py-3 font-semibold text-slate-500"
+          <a
+            href={explorerUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 block w-full rounded-lg bg-cyan-300 px-5 py-3 text-center font-semibold text-slate-950 transition hover:bg-cyan-200"
           >
-            Arc explorer link coming soon
-          </button>
+            View on ArcScan
+          </a>
         </section>
       </div>
     </main>
