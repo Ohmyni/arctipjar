@@ -1,4 +1,8 @@
 import Link from "next/link";
+import {
+  AddArcNetworkButton,
+  ArcTestnetNotice,
+} from "@/components/add-arc-network-button";
 import { ConnectWalletButton } from "@/components/connect-wallet-button";
 
 const navLinks = [
@@ -81,7 +85,10 @@ export default function Home() {
               </Link>
             ))}
           </div>
-          <ConnectWalletButton />
+          <div className="flex items-center gap-3">
+            <AddArcNetworkButton />
+            <ConnectWalletButton />
+          </div>
         </nav>
       </header>
 
@@ -110,6 +117,9 @@ export default function Home() {
             >
               View sample jar
             </Link>
+          </div>
+          <div className="mt-5 max-w-2xl">
+            <ArcTestnetNotice />
           </div>
         </div>
 

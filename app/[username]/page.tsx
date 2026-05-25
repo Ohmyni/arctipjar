@@ -1,4 +1,8 @@
 import Link from "next/link";
+import {
+  AddArcNetworkButton,
+  ArcTestnetNotice,
+} from "@/components/add-arc-network-button";
 import { ConnectWalletButton } from "@/components/connect-wallet-button";
 
 type TipPageProps = {
@@ -27,6 +31,7 @@ export default async function TipPage({ params }: TipPageProps) {
             >
               Create your jar
             </Link>
+            <AddArcNetworkButton />
             <ConnectWalletButton />
           </div>
         </div>
@@ -126,6 +131,9 @@ export default async function TipPage({ params }: TipPageProps) {
             <p className="mt-4 rounded-lg border border-white/10 bg-slate-950/70 p-3 text-center text-sm text-slate-400">
               Wallet connection is enabled, USDC tipping is coming next.
             </p>
+            <div className="mt-4">
+              <ArcTestnetNotice />
+            </div>
           </section>
         </div>
       </div>

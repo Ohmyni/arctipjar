@@ -1,4 +1,8 @@
 import Link from "next/link";
+import {
+  AddArcNetworkButton,
+  ArcTestnetNotice,
+} from "@/components/add-arc-network-button";
 import { ConnectWalletButton } from "@/components/connect-wallet-button";
 
 const stats = [
@@ -24,6 +28,7 @@ export default function DashboardPage() {
             >
               Create jar
             </Link>
+            <AddArcNetworkButton />
             <ConnectWalletButton />
           </div>
         </div>
@@ -42,6 +47,9 @@ export default function DashboardPage() {
           <p className="mt-4 inline-flex rounded-lg border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 text-sm text-cyan-50">
             Wallet connection is enabled, USDC tipping is coming next.
           </p>
+          <div className="mt-4 max-w-2xl">
+            <ArcTestnetNotice />
+          </div>
         </section>
 
         <div className="grid gap-4 md:grid-cols-3">

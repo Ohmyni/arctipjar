@@ -1,4 +1,8 @@
 import Link from "next/link";
+import {
+  AddArcNetworkButton,
+  ArcTestnetNotice,
+} from "@/components/add-arc-network-button";
 import { ConnectWalletButton } from "@/components/connect-wallet-button";
 
 const fields = [
@@ -43,6 +47,7 @@ export default function CreatePage() {
             >
               Preview demo
             </Link>
+            <AddArcNetworkButton />
             <ConnectWalletButton />
           </div>
         </div>
@@ -62,6 +67,9 @@ export default function CreatePage() {
             <p className="mt-4 rounded-lg border border-cyan-300/20 bg-cyan-300/10 p-4 text-sm leading-6 text-cyan-50">
               Wallet connection is enabled, USDC tipping is coming next.
             </p>
+            <div className="mt-4">
+              <ArcTestnetNotice />
+            </div>
 
             <div className="mt-8 rounded-lg border border-cyan-300/20 bg-cyan-300/10 p-5">
               <p className="text-sm font-semibold text-cyan-100">

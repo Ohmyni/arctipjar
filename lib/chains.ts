@@ -1,35 +1,35 @@
 import type { Chain } from "viem";
 
-// TODO: Replace this placeholder chain ID with the real Arc chain ID.
-export const ARC_CHAIN_ID = 999999;
+export const ARC_CHAIN_ID = 5042002;
+export const ARC_CHAIN_ID_HEX = "0x4cef52";
+export const ARC_RPC_URL = "https://rpc.testnet.arc.network";
+export const ARC_WS_URL = "wss://rpc.testnet.arc.network";
+export const ARC_EXPLORER_URL = "https://testnet.arcscan.app";
+export const ARC_FAUCET_URL = "https://faucet.circle.com";
 
-// TODO: Replace this placeholder RPC URL with the official Arc RPC URL.
-export const ARC_RPC_URL = "https://rpc.arc-placeholder.example";
-
-// TODO: Replace this placeholder explorer URL with the official Arc explorer URL.
-export const ARC_EXPLORER_URL = "https://explorer.arc-placeholder.example";
-
-// TODO: Replace this placeholder address with the official USDC token address on Arc.
+// TODO: Replace with the official USDC token address on Arc Testnet before adding token transfers.
 export const ARC_USDC_TOKEN_ADDRESS =
   "0x0000000000000000000000000000000000000000";
 
 export const arc = {
   id: ARC_CHAIN_ID,
-  name: "Arc",
+  name: "Arc Testnet",
   nativeCurrency: {
-    decimals: 6,
+    decimals: 18,
     name: "USDC",
     symbol: "USDC",
   },
   rpcUrls: {
     default: {
       http: [ARC_RPC_URL],
+      webSocket: [ARC_WS_URL],
     },
   },
   blockExplorers: {
     default: {
-      name: "Arc Explorer",
+      name: "ArcScan",
       url: ARC_EXPLORER_URL,
     },
   },
+  testnet: true,
 } as const satisfies Chain;
