@@ -16,8 +16,8 @@ ArcTipJar is a USDC tip jar platform live on Arc Testnet. It lets creators,
 builders, and communities receive USDC testnet tips through a simple public jar
 page. The app supports wallet connection, Arc Testnet network setup, smart
 contract-based tipping, ArcScan receipts, and a dashboard that reads onchain
-TipSent events. Profile creation is currently demo-only, while the payment flow
-is already onchain on Arc Testnet.
+TipSent events. Profile creation currently uses local demo storage, while the
+payment flow is already onchain on Arc Testnet.
 
 ## Features
 
@@ -30,9 +30,10 @@ is already onchain on Arc Testnet.
 
 ## Current Limitations
 
-- Profile creation is demo-only and does not save to a database yet.
+- Profile creation currently uses local demo storage in the browser.
+- Supabase/cloud profile storage is planned next.
 - The app supports Arc Testnet only. It does not claim mainnet support.
-- Supabase/user persistence has not been added yet.
+- Local profiles are not shared across devices yet.
 
 ## Local Development
 

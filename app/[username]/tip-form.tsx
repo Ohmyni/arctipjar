@@ -12,14 +12,14 @@ import {
   ARC_EXPLORER_URL,
   ARCTIPJAR_CONTRACT_ADDRESS,
   ARC_USDC_ADDRESS,
-  DEMO_CREATOR_ADDRESS,
   USDC_DECIMALS,
   arcTipJarAbi,
   erc20Abi,
 } from "@/lib/contracts";
+import type { TipJarProfile } from "@/lib/profiles";
 
 type TipFormProps = {
-  username: string;
+  profile: TipJarProfile;
 };
 
 const suggestedAmounts = ["1", "5", "10"];
@@ -43,7 +43,7 @@ function shortenAddress(address: string) {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
 
-export function TipForm({ username }: TipFormProps) {
+export function TipForm({ profile }: TipFormProps) {
   const router = useRouter();
   const config = useConfig();
   const chainId = useChainId();
@@ -55,7 +55,7 @@ export function TipForm({ username }: TipFormProps) {
   const [error, setError] = useState<string | null>(null);
 
   const contractAddress = ARCTIPJAR_CONTRACT_ADDRESS;
-  const creatorAddress = DEMO_CREATOR_ADDRESS;
+  const creatorAddress = profile.recipientWallet;
   const isCorrectNetwork = chainId === ARC_CHAIN_ID;
   const isBusy = status !== "idle" && status !== "sent";
   const hasContract = Boolean(contractAddress && isAddress(contractAddress));
@@ -152,7 +152,7 @@ export function TipForm({ username }: TipFormProps) {
         <div>
           <h2 className="text-2xl font-bold">Send a tip</h2>
           <p className="mt-1 text-sm text-slate-400">
-            Tip @{username} with Arc Testnet USDC.
+            Tip @{profile.username} with Arc Testnet USDC.
           </p>
           <p className="mt-2 text-sm font-medium text-cyan-200">
             USDC tips are live on Arc Testnet.
@@ -238,8 +238,7 @@ export function TipForm({ username }: TipFormProps) {
 
       {!hasCreator ? (
         <p className="mt-3 rounded-lg border border-amber-300/25 bg-amber-300/10 p-3 text-sm text-amber-100">
-          Demo creator address is not configured. Set
-          NEXT_PUBLIC_DEMO_CREATOR_ADDRESS to enable this tip page.
+          Recipient wallet is not configured for this tip jar.
         </p>
       ) : null}
 
