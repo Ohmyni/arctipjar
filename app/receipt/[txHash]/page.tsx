@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ARC_EXPLORER_URL } from "@/lib/contracts";
+import { ARC_EXPLORER_URL, ARCTIPJAR_CONTRACT_ADDRESS } from "@/lib/contracts";
 
 type ReceiptPageProps = {
   params: Promise<{
@@ -47,6 +47,18 @@ export default async function ReceiptPage({ params }: ReceiptPageProps) {
             <p className="text-sm text-slate-400">Transaction hash</p>
             <p className="mt-2 break-all font-mono text-sm text-cyan-100">
               {txHash}
+            </p>
+          </div>
+
+          <div className="mt-4 rounded-lg bg-slate-950/70 p-4">
+            <p className="text-sm text-slate-400">Network</p>
+            <p className="mt-2 font-semibold">Arc Testnet</p>
+          </div>
+
+          <div className="mt-4 rounded-lg bg-slate-950/70 p-4">
+            <p className="text-sm text-slate-400">Contract address</p>
+            <p className="mt-2 break-all font-mono text-sm text-cyan-100">
+              {ARCTIPJAR_CONTRACT_ADDRESS}
             </p>
           </div>
 

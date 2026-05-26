@@ -24,8 +24,7 @@ function getEthereumProvider() {
 export function ArcTestnetNotice() {
   return (
     <p className="rounded-lg border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 text-sm leading-6 text-cyan-50">
-      ArcTipJar currently supports Arc Testnet. USDC tipping smart contracts are
-      coming next.
+      ArcTipJar currently supports Arc Testnet with real USDC testnet tipping.
     </p>
   );
 }

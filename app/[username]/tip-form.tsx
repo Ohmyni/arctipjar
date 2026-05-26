@@ -9,6 +9,7 @@ import { AddArcNetworkButton } from "@/components/add-arc-network-button";
 import { ConnectWalletButton } from "@/components/connect-wallet-button";
 import {
   ARC_CHAIN_ID,
+  ARC_EXPLORER_URL,
   ARCTIPJAR_CONTRACT_ADDRESS,
   ARC_USDC_ADDRESS,
   DEMO_CREATOR_ADDRESS,
@@ -38,6 +39,10 @@ function getErrorMessage(error: unknown) {
   return "The transaction was rejected or failed.";
 }
 
+function shortenAddress(address: string) {
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+}
+
 export function TipForm({ username }: TipFormProps) {
   const router = useRouter();
   const config = useConfig();
@@ -55,6 +60,7 @@ export function TipForm({ username }: TipFormProps) {
   const isBusy = status !== "idle" && status !== "sent";
   const hasContract = Boolean(contractAddress && isAddress(contractAddress));
   const hasCreator = Boolean(creatorAddress && isAddress(creatorAddress));
+  const contractExplorerUrl = `${ARC_EXPLORER_URL}/address/${ARCTIPJAR_CONTRACT_ADDRESS}`;
 
   const amountInBaseUnits = (() => {
     try {
@@ -147,6 +153,9 @@ export function TipForm({ username }: TipFormProps) {
           <h2 className="text-2xl font-bold">Send a tip</h2>
           <p className="mt-1 text-sm text-slate-400">
             Tip @{username} with Arc Testnet USDC.
+          </p>
+          <p className="mt-2 text-sm font-medium text-cyan-200">
+            USDC tips are live on Arc Testnet.
           </p>
         </div>
         <span className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-100">
@@ -254,6 +263,15 @@ export function TipForm({ username }: TipFormProps) {
           {error}
         </p>
       ) : null}
+
+      <a
+        href={contractExplorerUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="mt-4 block rounded-lg border border-white/10 bg-slate-950/70 p-3 text-center text-sm text-cyan-100 transition hover:border-cyan-300/40"
+      >
+        Contract: {shortenAddress(ARCTIPJAR_CONTRACT_ADDRESS)}
+      </a>
 
       <p className="mt-4 rounded-lg border border-white/10 bg-slate-950/70 p-3 text-center text-sm text-slate-400">
         This flow uses Arc Testnet USDC ERC-20 approval and the ArcTipJar

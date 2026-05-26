@@ -65,7 +65,7 @@ export default function CreatePage() {
               This MVP is demo-only, so the form does not save data yet.
             </p>
             <p className="mt-4 rounded-lg border border-cyan-300/20 bg-cyan-300/10 p-4 text-sm leading-6 text-cyan-50">
-              Wallet connection is enabled, USDC tipping is coming next.
+              Wallet connection and Arc Testnet USDC tipping are enabled.
             </p>
             <div className="mt-4">
               <ArcTestnetNotice />
@@ -131,8 +131,8 @@ export default function CreatePage() {
               Create tip jar
             </button>
             <p className="mt-4 text-center text-sm text-slate-500">
-              Demo-only: no database, wallet connection, or smart contract is
-              connected yet.
+              Profile saving is demo-only for now. Wallet connection and Arc
+              Testnet tipping are live on the public jar page.
             </p>
           </form>
         </div>

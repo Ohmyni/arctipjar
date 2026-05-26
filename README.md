@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ArcTipJar
 
-## Getting Started
+ArcTipJar is a USDC tip jar app live on Arc Testnet. It lets creators,
+builders, and communities receive USDC testnet tips through a simple public jar
+page.
 
-First, run the development server:
+- Live demo: https://arctipjar.vercel.app
+- Network: Arc Testnet
+- Explorer: https://testnet.arcscan.app
+- Contract: `0xB65396797aeC75F7B4a0e2661af16319f8D8FfF9`
+- USDC interface: `0x3600000000000000000000000000000000000000`
+
+## Grant Summary
+
+ArcTipJar is a USDC tip jar platform live on Arc Testnet. It lets creators,
+builders, and communities receive USDC testnet tips through a simple public jar
+page. The app supports wallet connection, Arc Testnet network setup, smart
+contract-based tipping, ArcScan receipts, and a dashboard that reads onchain
+TipSent events. Profile creation is currently demo-only, while the payment flow
+is already onchain on Arc Testnet.
+
+## Features
+
+- Wallet connection with RainbowKit and wagmi
+- Arc Testnet network setup button
+- Real USDC testnet tipping through a deployed smart contract
+- ERC-20 USDC approval followed by `ArcTipJar.tip(...)`
+- Receipts that link to ArcScan transaction pages
+- Dashboard that reads `TipSent` events from Arc Testnet
+
+## Current Limitations
+
+- Profile creation is demo-only and does not save to a database yet.
+- The app supports Arc Testnet only. It does not claim mainnet support.
+- Supabase/user persistence has not been added yet.
+
+## Local Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copy `.env.example` to `.env` and fill in values as needed:
 
-## Learn More
+```env
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_walletconnect_project_id_here
+NEXT_PUBLIC_ARC_CHAIN_ID=5042002
+NEXT_PUBLIC_ARC_RPC_URL=https://rpc.testnet.arc.network
+NEXT_PUBLIC_ARC_EXPLORER_URL=https://testnet.arcscan.app
+NEXT_PUBLIC_ARC_USDC_ADDRESS=0x3600000000000000000000000000000000000000
+NEXT_PUBLIC_ARCTIPJAR_CONTRACT_ADDRESS=0xB65396797aeC75F7B4a0e2661af16319f8D8FfF9
+NEXT_PUBLIC_DEMO_CREATOR_ADDRESS=0x52F0EbD6A19264942dDcC17C7059f440d6fb7AFa
+ARC_TESTNET_RPC_URL=https://rpc.testnet.arc.network
+PRIVATE_KEY=
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Contract
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Compile:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npx hardhat compile
+```
 
-## Deploy on Vercel
+Deploy to Arc Testnet:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npx hardhat run scripts/deploy.ts --network arcTestnet
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deployment is manual. The app does not deploy contracts automatically.
