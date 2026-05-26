@@ -47,7 +47,7 @@ export function TipForm({ profile }: TipFormProps) {
   const router = useRouter();
   const config = useConfig();
   const chainId = useChainId();
-  const { isConnected } = useAccount();
+  const { address, isConnected } = useAccount();
   const { switchChainAsync } = useSwitchChain();
   const [amount, setAmount] = useState("5");
   const [message, setMessage] = useState("");
@@ -56,6 +56,7 @@ export function TipForm({ profile }: TipFormProps) {
 
   const contractAddress = ARCTIPJAR_CONTRACT_ADDRESS;
   const creatorAddress = profile.recipientWallet;
+  const walletConnected = Boolean(address) || isConnected;
   const isCorrectNetwork = chainId === ARC_CHAIN_ID;
   const isBusy = status !== "idle" && status !== "sent";
   const hasContract = Boolean(contractAddress && isAddress(contractAddress));
@@ -71,7 +72,7 @@ export function TipForm({ profile }: TipFormProps) {
   })();
 
   const disabledReason = (() => {
-    if (!isConnected) return "Connect your wallet to send a tip.";
+    if (!walletConnected) return "Connect your wallet to send a tip.";
     if (!isCorrectNetwork) return "Switch to Arc Testnet to send a tip.";
     if (!hasContract) return "ArcTipJar contract address is not configured.";
     if (!hasCreator) return "Recipient wallet is not configured for this tip jar.";
@@ -92,7 +93,7 @@ export function TipForm({ profile }: TipFormProps) {
     if (status === "sent") {
       return "Tip sent successfully.";
     }
-    if (!isConnected) {
+    if (!walletConnected) {
       return "Connect your wallet to send a tip.";
     }
     if (!isCorrectNetwork) {
@@ -240,7 +241,7 @@ export function TipForm({ profile }: TipFormProps) {
         className="mt-2 min-h-28 w-full rounded-lg border border-white/10 bg-slate-950/80 px-4 py-3 outline-none transition placeholder:text-slate-600 focus:border-cyan-300/70"
       />
 
-      {!isConnected ? (
+      {!walletConnected ? (
         <div className="mt-5">
           <ConnectWalletButton />
         </div>
