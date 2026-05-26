@@ -118,7 +118,7 @@ export function TipJarPageClient({ username }: TipJarPageClientProps) {
               href="/create"
               className="mt-6 inline-flex rounded-lg bg-cyan-300 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-200"
             >
-              Create tip jar
+              Create public jar
             </Link>
           </section>
         </div>
@@ -140,7 +140,7 @@ export function TipJarPageClient({ username }: TipJarPageClientProps) {
               href="/create"
               className="hidden rounded-lg border border-white/15 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10 sm:inline-flex"
             >
-              Create your jar
+              Create jar
             </Link>
             <AddArcNetworkButton />
             <ConnectWalletButton />
@@ -158,7 +158,7 @@ export function TipJarPageClient({ username }: TipJarPageClientProps) {
                 <h1 className="mt-1 text-3xl font-bold">{profile.displayName}</h1>
                 <p className="mt-1 text-slate-400">@{profile.username}</p>
                 <p className="mt-3 leading-7 text-slate-300">
-                  {profile.bio || "Send an Arc Testnet USDC tip and leave a note."}
+                  {profile.bio || "Send a USDC tip on Arc Testnet and leave a note."}
                 </p>
                 {profile.socialLink ? (
                   <a

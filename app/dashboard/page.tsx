@@ -31,11 +31,11 @@ export default function DashboardPage() {
             Creator dashboard
           </p>
           <h1 className="mt-3 text-4xl font-bold tracking-tight md:text-5xl">
-            Tip activity
+            Onchain tip activity
           </h1>
           <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-300">
-            Dashboard stats are read from Arc Testnet TipSent events emitted by
-            the deployed ArcTipJar contract.
+            Onchain tips from the ArcTipJar contract appear here as TipSent
+            events from Arc Testnet.
           </p>
           <p className="mt-3 max-w-2xl rounded-lg border border-cyan-300/20 bg-cyan-300/10 p-4 text-sm leading-6 text-cyan-50">
             Creator-specific dashboards will be added after wallet-based

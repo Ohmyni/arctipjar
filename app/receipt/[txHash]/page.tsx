@@ -34,8 +34,8 @@ export default async function ReceiptPage({ params }: ReceiptPageProps) {
               </p>
               <h1 className="mt-3 text-4xl font-bold">Transaction submitted</h1>
               <p className="mt-3 max-w-xl text-slate-300">
-                This receipt links to the Arc Testnet transaction hash returned
-                by the wallet flow.
+                Your tip transaction was submitted on Arc Testnet. Use ArcScan
+                to inspect confirmation status and onchain details.
               </p>
             </div>
             <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-sm font-semibold text-emerald-200">
@@ -70,6 +70,10 @@ export default async function ReceiptPage({ params }: ReceiptPageProps) {
           >
             View on ArcScan
           </a>
+          <p className="mt-4 text-center text-sm text-slate-400">
+            ArcTipJar shows verified transaction links only. Sender, recipient,
+            and amount details can be inspected on ArcScan.
+          </p>
         </section>
       </div>
     </main>

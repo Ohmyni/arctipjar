@@ -139,7 +139,7 @@ export function DashboardEvents() {
           <div>
             <h2 className="text-xl font-semibold">Recent tips</h2>
             <p className="mt-1 text-sm text-slate-400">
-              Live TipSent events from Arc Testnet.
+              Onchain tips from the ArcTipJar contract.
             </p>
           </div>
           <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-100">
@@ -154,7 +154,7 @@ export function DashboardEvents() {
         ) : error ? (
           <div className="px-5 py-16 text-center">
             <p className="text-lg font-semibold text-white">
-              Could not load events
+              Tip history could not be loaded
             </p>
             <p className="mt-2 text-sm text-slate-400">{error}</p>
           </div>
@@ -162,7 +162,8 @@ export function DashboardEvents() {
           <div className="px-5 py-16 text-center">
             <p className="text-lg font-semibold text-white">No tips yet</p>
             <p className="mt-2 text-slate-400">
-              TipSent events from Arc Testnet will appear here.
+              TipSent events from the ArcTipJar contract will appear here after
+              the first confirmed tip.
             </p>
           </div>
         ) : (

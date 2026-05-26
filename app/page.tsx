@@ -20,12 +20,12 @@ const features = [
   {
     title: "USDC payments",
     description:
-      "Keep the tip experience focused on stable value with USDC-first contribution flows.",
+      "Supporters send Arc Testnet USDC through the deployed ArcTipJar contract.",
   },
   {
     title: "Onchain receipts",
     description:
-      "Every future payment will settle on Arc and display a receipt with its transaction hash.",
+      "Successful tips redirect to a receipt page with the ArcScan transaction link.",
   },
   {
     title: "Creator dashboard",
@@ -48,7 +48,7 @@ const steps = [
   {
     step: "03",
     title: "Receive USDC tips",
-    description: "Supporters pick an amount, add a note, and soon pay directly on Arc.",
+    description: "Supporters pick an amount, add a note, and send USDC on Arc Testnet.",
   },
 ];
 
@@ -109,13 +109,13 @@ export default function Home() {
               href="/create"
               className="rounded-lg bg-cyan-300 px-6 py-3 text-center font-semibold text-slate-950 transition hover:bg-cyan-200"
             >
-              Create tip jar
+              Create public jar
             </Link>
             <Link
               href="/arc"
               className="rounded-lg border border-white/15 px-6 py-3 text-center font-semibold text-white transition hover:border-cyan-300/50 hover:bg-white/10"
             >
-              View sample jar
+              View Arc jar
             </Link>
           </div>
           <div className="mt-5 max-w-2xl">
@@ -137,7 +137,7 @@ export default function Home() {
                 </div>
               </div>
               <span className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-100">
-                Demo
+                Arc Testnet
               </span>
             </div>
 
@@ -160,13 +160,13 @@ export default function Home() {
 
             <div className="mt-5 flex items-center justify-between rounded-lg border border-white/10 bg-slate-950/80 p-4">
               <div>
-                <p className="text-sm text-slate-400">Future receipt</p>
-                <p className="mt-1 font-mono text-sm text-cyan-100">
-                  0x123...arc
+                <p className="text-sm text-slate-400">Receipt</p>
+                <p className="mt-1 text-sm text-cyan-100">
+                  ArcScan-linked transaction record
                 </p>
               </div>
               <p className="text-sm font-semibold text-emerald-300">
-                Confirmed
+                Onchain
               </p>
             </div>
           </div>
@@ -217,7 +217,7 @@ export default function Home() {
       <footer className="border-t border-white/10 px-6 py-8">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
           <p>ArcTipJar. Simple USDC tip jars on Arc.</p>
-          <p>Frontend MVP. Wallet payments and onchain receipts coming soon.</p>
+          <p>Live on Arc Testnet with Supabase profiles and ArcScan receipts.</p>
         </div>
       </footer>
     </main>

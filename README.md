@@ -1,49 +1,77 @@
 # ArcTipJar
 
-ArcTipJar is a USDC tip jar app live on Arc Testnet. It lets creators,
-builders, and communities create public tip jar profiles and receive USDC
-testnet tips through a simple public jar page.
+ArcTipJar is a USDC tip jar platform live on Arc Testnet. Creators, builders,
+and communities can create a public jar profile, set the wallet that receives
+tips, and share a simple link with supporters.
 
 - Live demo: https://arctipjar.vercel.app
 - Network: Arc Testnet
 - Explorer: https://testnet.arcscan.app
-- Contract: `0xB65396797aeC75F7B4a0e2661af16319f8D8FfF9`
-- USDC interface: `0x3600000000000000000000000000000000000000`
+- ArcTipJar contract: `0xB65396797aeC75F7B4a0e2661af16319f8D8FfF9`
+- USDC ERC-20 interface: `0x3600000000000000000000000000000000000000`
 
 ## Grant Summary
 
-ArcTipJar is a USDC tip jar platform live on Arc Testnet. It lets creators,
-builders, and communities receive USDC testnet tips through a simple public jar
-page. The app supports wallet connection, Arc Testnet network setup, smart
-contract-based tipping, ArcScan receipts, and a dashboard that reads onchain
-TipSent events. Creator profile creation is backed by Supabase, and the payment
-flow is onchain on Arc Testnet.
+ArcTipJar brings a creator-friendly USDC tipping flow to Arc Testnet. The app
+supports RainbowKit wallet connection, Arc Testnet network setup, Supabase
+creator profiles, smart contract-based tipping, ArcScan receipts, and an
+onchain dashboard that reads `TipSent` events from the deployed ArcTipJar
+contract. The smart contract can tip any creator wallet, and public jar pages use
+the creator recipient wallet saved in Supabase.
 
-## Features
+## What Works Today
 
-- Wallet connection with RainbowKit and wagmi
-- Arc Testnet network setup button
-- Real USDC testnet tipping through a deployed smart contract
-- ERC-20 USDC approval followed by `ArcTipJar.tip(...)`
-- Creator profile creation with Supabase
-- Public jar pages that tip the creator's saved recipient wallet
-- Receipts that link to ArcScan transaction pages
-- Dashboard that reads `TipSent` events from Arc Testnet
+- Create a public creator profile with Supabase-backed storage.
+- Save a username, display name, bio, social link, and recipient wallet.
+- Open a public jar at `/{username}`.
+- Connect a wallet with RainbowKit and wagmi.
+- Add or switch to Arc Testnet.
+- Approve Arc Testnet USDC through the ERC-20 interface.
+- Send a tip through the deployed `ArcTipJar` contract.
+- Redirect supporters to an ArcScan-linked receipt.
+- Read recent onchain `TipSent` events in the dashboard.
+
+## Architecture
+
+- Frontend: Next.js App Router, TypeScript, Tailwind CSS
+- Wallet stack: RainbowKit, wagmi, viem
+- Profile storage: Supabase `profiles` table
+- Network: Arc Testnet only
+- Token flow: Arc USDC ERC-20 interface approval, then `ArcTipJar.tip(...)`
+- Receipts: ArcScan transaction links
+
+## Contract
+
+The deployed contract accepts a creator address, amount, and optional message.
+It transfers USDC from the supporter to the creator with `transferFrom` and
+emits:
+
+```solidity
+event TipSent(
+  address indexed sender,
+  address indexed creator,
+  uint256 amount,
+  string message,
+  uint256 timestamp
+);
+```
 
 ## Current Limitations
 
-- There is no auth or profile editing yet.
-- Dashboard events are global for now, not creator-specific.
-- The app supports Arc Testnet only. It does not claim mainnet support.
+- ArcTipJar is Arc Testnet only. Mainnet support is not enabled.
+- Profile creation is public for the MVP; auth and profile editing are not yet
+  implemented.
+- The dashboard currently shows global contract activity. Creator-specific
+  dashboards will follow wallet-based profile ownership.
 
-## Local Development
+## Roadmap
 
-```bash
-npm install
-npm run dev
-```
-
-Open http://localhost:3000.
+- Wallet-based creator ownership for profile edits.
+- Creator-specific dashboard filtering.
+- Public profile management and verification.
+- Better supporter history and receipt metadata.
+- Production hardening for rate limits, validation, and abuse prevention.
+- Mainnet readiness after Arc mainnet requirements are finalized.
 
 ## Environment
 
@@ -65,22 +93,27 @@ PRIVATE_KEY=
 
 ## Supabase
 
-Run `supabase/schema.sql` in your Supabase SQL editor. The MVP enables public
-profile reads and public profile inserts so creators can create a jar without
-auth. Wallet-based ownership and profile editing are planned next.
+Run `supabase/schema.sql` in the Supabase SQL editor. The MVP enables public
+profile reads and public profile inserts so creators can create jars without an
+account. Auth and profile editing are planned next.
 
-## Contract
+## Local Development
 
-Compile:
+```bash
+npm install
+npm run dev
+```
+
+Open http://localhost:3000.
+
+Compile contracts:
 
 ```bash
 npx hardhat compile
 ```
 
-Deploy to Arc Testnet:
+Deploy manually to Arc Testnet:
 
 ```bash
 npx hardhat run scripts/deploy.ts --network arcTestnet
 ```
-
-Deployment is manual. The app does not deploy contracts automatically.

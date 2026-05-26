@@ -92,7 +92,7 @@ export default function CreatePage() {
               href="/arc"
               className="hidden rounded-lg border border-white/15 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10 sm:inline-flex"
             >
-              Preview demo
+              View Arc jar
             </Link>
             <AddArcNetworkButton />
             <ConnectWalletButton />
@@ -105,15 +105,15 @@ export default function CreatePage() {
               Creator onboarding
             </p>
             <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-5xl">
-              Create your tip jar
+              Create your public jar
             </h1>
             <p className="mt-4 max-w-xl text-lg leading-8 text-slate-300">
-              Set up a polished public page for receiving USDC tips on Arc
-              Testnet.
+              Publish a shareable ArcTipJar profile and choose the wallet that
+              receives every USDC tip.
             </p>
             <p className="mt-4 rounded-lg border border-cyan-300/20 bg-cyan-300/10 p-4 text-sm leading-6 text-cyan-50">
-              Profile saving is live with Supabase. Arc Testnet tipping is live
-              on public jar pages.
+              Profiles are saved with Supabase. Public jar pages route Arc
+              Testnet USDC tips to the recipient wallet on the profile.
             </p>
             <div className="mt-4">
               <ArcTestnetNotice />
@@ -127,8 +127,8 @@ export default function CreatePage() {
                 arctipjar.vercel.app/{previewUsername}
               </p>
               <p className="mt-3 text-sm leading-6 text-slate-300">
-                This profile is saved in Supabase and can receive real Arc
-                Testnet USDC tips at the recipient wallet you enter.
+                Share this public page with supporters after creating your jar.
+                Tips sent from the page settle through the ArcTipJar contract.
               </p>
             </div>
           </section>
@@ -147,7 +147,7 @@ export default function CreatePage() {
                   name="username"
                   value={username}
                   onChange={(event) => setUsername(event.target.value)}
-                  placeholder="test"
+                  placeholder="builder-name"
                   className="mt-2 w-full rounded-lg border border-white/10 bg-slate-950/80 px-4 py-3 outline-none transition placeholder:text-slate-600 focus:border-cyan-300/70"
                 />
                 <p className="mt-2 text-xs leading-5 text-slate-500">
@@ -167,7 +167,7 @@ export default function CreatePage() {
                   name="displayName"
                   value={displayName}
                   onChange={(event) => setDisplayName(event.target.value)}
-                  placeholder="Test Builder"
+                  placeholder="Arc Builder"
                   className="mt-2 w-full rounded-lg border border-white/10 bg-slate-950/80 px-4 py-3 outline-none transition placeholder:text-slate-600 focus:border-cyan-300/70"
                 />
               </div>
@@ -185,7 +185,7 @@ export default function CreatePage() {
                   className="mt-2 w-full rounded-lg border border-white/10 bg-slate-950/80 px-4 py-3 font-mono outline-none transition placeholder:text-slate-600 focus:border-cyan-300/70"
                 />
                 <p className="mt-2 text-xs leading-5 text-slate-500">
-                  This address receives real Arc Testnet USDC tips.
+                  This wallet receives USDC tips sent from your public jar.
                 </p>
               </div>
 
@@ -198,7 +198,7 @@ export default function CreatePage() {
                   name="bio"
                   value={bio}
                   onChange={(event) => setBio(event.target.value)}
-                  placeholder="Tell supporters what they are funding."
+                  placeholder="Tell supporters what their tips help fund."
                   className="mt-2 min-h-32 w-full rounded-lg border border-white/10 bg-slate-950/80 px-4 py-3 outline-none transition placeholder:text-slate-600 focus:border-cyan-300/70"
                 />
               </div>
@@ -230,11 +230,11 @@ export default function CreatePage() {
               disabled={isSaving}
               className="mt-6 w-full rounded-lg bg-cyan-300 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-200 disabled:cursor-not-allowed disabled:bg-cyan-300/60"
             >
-              {isSaving ? "Creating tip jar..." : "Create tip jar"}
+              {isSaving ? "Creating public jar..." : "Create public jar"}
             </button>
             <p className="mt-4 text-center text-sm text-slate-500">
-              Profile saving is live with Supabase. Arc Testnet tipping is live
-              on public jar pages.
+              ArcTipJar currently supports Arc Testnet. Mainnet tipping is not
+              enabled.
             </p>
           </form>
         </div>

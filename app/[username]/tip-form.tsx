@@ -188,12 +188,12 @@ export function TipForm({ profile }: TipFormProps) {
     <div>
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold">Send a tip</h2>
+          <h2 className="text-2xl font-bold">Send USDC tip</h2>
           <p className="mt-1 text-sm text-slate-400">
-            Tip @{profile.username} with Arc Testnet USDC.
+            Tip @{profile.username} directly to their saved recipient wallet.
           </p>
           <p className="mt-2 text-sm font-medium text-cyan-200">
-            USDC tips are live on Arc Testnet.
+            Tips are processed on Arc Testnet through the ArcTipJar contract.
           </p>
         </div>
         <span className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-100">
@@ -302,8 +302,8 @@ export function TipForm({ profile }: TipFormProps) {
       </a>
 
       <p className="mt-4 rounded-lg border border-white/10 bg-slate-950/70 p-3 text-center text-sm text-slate-400">
-        This flow uses Arc Testnet USDC ERC-20 approval and the ArcTipJar
-        contract. Mainnet tipping is not live.
+        This tip uses Arc Testnet USDC approval followed by the ArcTipJar
+        contract call. Mainnet tipping is not enabled.
       </p>
     </div>
   );
