@@ -14,7 +14,7 @@ export const defaultArcProfile: TipJarProfile = {
   username: "arc",
   displayName: "Arc",
   recipientWallet: DEMO_CREATOR_ADDRESS,
-  bio: "Supporting experiments, writing, and community work around Arc Testnet.",
+  bio: "Support Arc ecosystem notes and builder experiments.",
   socialLink: "https://arctipjar.vercel.app",
   createdAt: "2026-05-26T00:00:00.000Z",
 };

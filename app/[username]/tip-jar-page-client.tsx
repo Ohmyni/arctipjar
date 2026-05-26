@@ -48,6 +48,7 @@ function shortenAddress(address: string) {
 
 export function TipJarPageClient({ username }: TipJarPageClientProps) {
   const normalizedUsername = username.toLowerCase();
+  const isDefaultArcProfile = normalizedUsername === "arc";
   const [profile, setProfile] = useState<TipJarProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -57,12 +58,14 @@ export function TipJarPageClient({ username }: TipJarPageClientProps) {
     queueMicrotask(() => {
       if (!isMounted) return;
 
-      const localProfile = readLocalProfile(normalizedUsername);
+      const localProfile = isDefaultArcProfile
+        ? null
+        : readLocalProfile(normalizedUsername);
 
-      if (localProfile) {
-        setProfile(localProfile);
-      } else if (normalizedUsername === "arc") {
+      if (isDefaultArcProfile) {
         setProfile(defaultArcProfile);
+      } else if (localProfile) {
+        setProfile(localProfile);
       } else {
         setProfile(null);
       }
@@ -73,7 +76,7 @@ export function TipJarPageClient({ username }: TipJarPageClientProps) {
     return () => {
       isMounted = false;
     };
-  }, [normalizedUsername]);
+  }, [isDefaultArcProfile, normalizedUsername]);
 
   if (isLoading) {
     return (
@@ -154,16 +157,14 @@ export function TipJarPageClient({ username }: TipJarPageClientProps) {
               </div>
             </div>
 
-            <p className="mt-5 rounded-lg border border-amber-300/25 bg-amber-300/10 p-3 text-sm leading-6 text-amber-100">
-              Profile data is stored locally for this MVP. Shareable cloud
-              profiles will be added next.
-            </p>
+            {!isDefaultArcProfile ? (
+              <p className="mt-5 rounded-lg border border-amber-300/25 bg-amber-300/10 p-3 text-sm leading-6 text-amber-100">
+                Profile data is stored locally for this MVP. Shareable cloud
+                profiles will be added next.
+              </p>
+            ) : null}
 
-            <div className="mt-6 grid gap-3 border-t border-white/10 pt-6 sm:grid-cols-3">
-              <div className="rounded-lg bg-slate-950/70 p-4">
-                <p className="text-sm text-slate-400">Received</p>
-                <p className="mt-2 text-xl font-bold">Onchain</p>
-              </div>
+            <div className="mt-6 grid gap-3 border-t border-white/10 pt-6 sm:grid-cols-2">
               <div className="rounded-lg bg-slate-950/70 p-4">
                 <p className="text-sm text-slate-400">Recipient</p>
                 <p className="mt-2 font-mono text-sm font-bold text-cyan-100">

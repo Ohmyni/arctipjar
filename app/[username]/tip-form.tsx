@@ -71,15 +71,43 @@ export function TipForm({ profile }: TipFormProps) {
   })();
 
   const disabledReason = (() => {
-    if (!isConnected) return "Connect wallet required.";
+    if (!isConnected) return "Connect your wallet to send a tip.";
     if (!isCorrectNetwork) return "Switch to Arc Testnet to send a tip.";
     if (!hasContract) return "ArcTipJar contract address is not configured.";
-    if (!hasCreator) return "Demo creator address is not configured.";
+    if (!hasCreator) return "Recipient wallet is not configured for this tip jar.";
     if (amountInBaseUnits <= BigInt(0)) return "Enter an amount greater than 0.";
     if (new TextEncoder().encode(message).length > 280) {
       return "Message must be 280 bytes or less.";
     }
     return null;
+  })();
+
+  const statusMessage = (() => {
+    if (status === "approving" || status === "approve-confirming") {
+      return "Approving USDC...";
+    }
+    if (status === "sending") {
+      return "Sending tip...";
+    }
+    if (status === "sent") {
+      return "Tip sent successfully.";
+    }
+    if (!isConnected) {
+      return "Connect your wallet to send a tip.";
+    }
+    if (!isCorrectNetwork) {
+      return "Switch to Arc Testnet to send a tip.";
+    }
+    if (!hasContract) {
+      return "ArcTipJar contract address is not configured.";
+    }
+    if (!hasCreator) {
+      return "Recipient wallet is not configured for this tip jar.";
+    }
+    if (amountInBaseUnits <= BigInt(0)) {
+      return "Enter an amount greater than 0.";
+    }
+    return "Ready to send USDC on Arc Testnet.";
   })();
 
   async function sendTip() {
@@ -229,18 +257,15 @@ export function TipForm({ profile }: TipFormProps) {
         </div>
       ) : null}
 
-      {!hasContract ? (
-        <p className="mt-3 rounded-lg border border-amber-300/25 bg-amber-300/10 p-3 text-sm text-amber-100">
-          ArcTipJar contract address is not configured. Set
-          NEXT_PUBLIC_ARCTIPJAR_CONTRACT_ADDRESS after deploying the contract.
-        </p>
-      ) : null}
-
-      {!hasCreator ? (
-        <p className="mt-3 rounded-lg border border-amber-300/25 bg-amber-300/10 p-3 text-sm text-amber-100">
-          Recipient wallet is not configured for this tip jar.
-        </p>
-      ) : null}
+      <p
+        className={`mt-5 rounded-lg border p-3 text-sm ${
+          !disabledReason && !isBusy
+            ? "border-emerald-300/25 bg-emerald-300/10 text-emerald-100"
+            : "border-amber-300/25 bg-amber-300/10 text-amber-100"
+        }`}
+      >
+        {statusMessage}
+      </p>
 
       <button
         type="button"
@@ -250,12 +275,6 @@ export function TipForm({ profile }: TipFormProps) {
       >
         {buttonLabel}
       </button>
-
-      {disabledReason ? (
-        <p className="mt-3 rounded-lg border border-amber-300/25 bg-amber-300/10 p-3 text-sm text-amber-100">
-          {disabledReason}
-        </p>
-      ) : null}
 
       {error ? (
         <p className="mt-3 rounded-lg border border-red-300/25 bg-red-300/10 p-3 text-sm text-red-100">
