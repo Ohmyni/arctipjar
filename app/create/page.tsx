@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { isAddress, type Address } from "viem";
+import { isAddress } from "viem";
 import {
   AddArcNetworkButton,
   ArcTestnetNotice,
 } from "@/components/add-arc-network-button";
 import { ConnectWalletButton } from "@/components/connect-wallet-button";
-import { getProfileStorageKey, type TipJarProfile } from "@/lib/profiles";
+import { getSupabaseBrowserClient } from "@/lib/supabase";
 
 function normalizeUsername(value: string) {
   return value.trim().toLowerCase().replace(/[^a-z0-9-]/g, "");
@@ -28,7 +28,7 @@ export default function CreatePage() {
   const normalizedUsername = normalizeUsername(username);
   const previewUsername = normalizedUsername || "username";
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
 
@@ -47,21 +47,35 @@ export default function CreatePage() {
       return;
     }
 
+    const supabase = getSupabaseBrowserClient();
+
+    if (!supabase) {
+      setError(
+        "Supabase is not configured. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to enable profile saving.",
+      );
+      return;
+    }
+
     setIsSaving(true);
 
-    const profile: TipJarProfile = {
+    const { error: insertError } = await supabase.from("profiles").insert({
       username: normalizedUsername,
-      displayName: displayName.trim(),
-      recipientWallet: recipientWallet as Address,
-      bio: bio.trim(),
-      socialLink: socialLink.trim(),
-      createdAt: new Date().toISOString(),
-    };
+      display_name: displayName.trim(),
+      recipient_wallet: recipientWallet,
+      bio: bio.trim() || null,
+      social_link: socialLink.trim() || null,
+    });
 
-    localStorage.setItem(
-      getProfileStorageKey(normalizedUsername),
-      JSON.stringify(profile),
-    );
+    if (insertError) {
+      setIsSaving(false);
+      if (insertError.code === "23505") {
+        setError("That username is already taken. Try another one.");
+        return;
+      }
+
+      setError(insertError.message);
+      return;
+    }
 
     router.push(`/${normalizedUsername}`);
   }
@@ -98,8 +112,8 @@ export default function CreatePage() {
               Testnet.
             </p>
             <p className="mt-4 rounded-lg border border-cyan-300/20 bg-cyan-300/10 p-4 text-sm leading-6 text-cyan-50">
-              Profile saving currently uses local demo storage. Onchain tipping
-              is live on Arc Testnet.
+              Profile saving is live with Supabase. Arc Testnet tipping is live
+              on public jar pages.
             </p>
             <div className="mt-4">
               <ArcTestnetNotice />
@@ -113,8 +127,8 @@ export default function CreatePage() {
                 arctipjar.vercel.app/{previewUsername}
               </p>
               <p className="mt-3 text-sm leading-6 text-slate-300">
-                This profile is saved in your browser for the MVP. Cloud
-                shareable profiles will be added next.
+                This profile is saved in Supabase and can receive real Arc
+                Testnet USDC tips at the recipient wallet you enter.
               </p>
             </div>
           </section>
@@ -219,8 +233,8 @@ export default function CreatePage() {
               {isSaving ? "Creating tip jar..." : "Create tip jar"}
             </button>
             <p className="mt-4 text-center text-sm text-slate-500">
-              Profile saving uses local demo storage for now. Wallet connection
-              and Arc Testnet tipping are live on the public jar page.
+              Profile saving is live with Supabase. Arc Testnet tipping is live
+              on public jar pages.
             </p>
           </form>
         </div>

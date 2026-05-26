@@ -10,37 +10,16 @@ import {
 import { ConnectWalletButton } from "@/components/connect-wallet-button";
 import {
   defaultArcProfile,
-  getProfileStorageKey,
+  mapProfileRow,
+  type ProfileRow,
   type TipJarProfile,
 } from "@/lib/profiles";
+import { getSupabaseBrowserClient } from "@/lib/supabase";
 import { TipForm } from "./tip-form";
 
 type TipJarPageClientProps = {
   username: string;
 };
-
-function readLocalProfile(username: string) {
-  const rawProfile = localStorage.getItem(getProfileStorageKey(username));
-
-  if (!rawProfile) {
-    return null;
-  }
-
-  try {
-    const parsedProfile = JSON.parse(rawProfile) as TipJarProfile;
-    if (
-      parsedProfile.username &&
-      parsedProfile.displayName &&
-      isAddress(parsedProfile.recipientWallet)
-    ) {
-      return parsedProfile;
-    }
-  } catch {
-    return null;
-  }
-
-  return null;
-}
 
 function shortenAddress(address: string) {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -51,27 +30,64 @@ export function TipJarPageClient({ username }: TipJarPageClientProps) {
   const isDefaultArcProfile = normalizedUsername === "arc";
   const [profile, setProfile] = useState<TipJarProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
     let isMounted = true;
 
-    queueMicrotask(() => {
+    async function loadProfile() {
+      setIsLoading(true);
+      setLoadError(null);
+
+      const supabase = getSupabaseBrowserClient();
+
+      if (!supabase) {
+        if (isMounted) {
+          setProfile(isDefaultArcProfile ? defaultArcProfile : null);
+          setLoadError(
+            isDefaultArcProfile
+              ? null
+              : "Supabase profile storage is not configured yet.",
+          );
+          setIsLoading(false);
+        }
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select(
+          "username, display_name, recipient_wallet, bio, social_link, created_at",
+        )
+        .eq("username", normalizedUsername)
+        .maybeSingle();
+
       if (!isMounted) return;
 
-      const localProfile = isDefaultArcProfile
-        ? null
-        : readLocalProfile(normalizedUsername);
+      if (error) {
+        setProfile(isDefaultArcProfile ? defaultArcProfile : null);
+        setLoadError(error.message);
+        setIsLoading(false);
+        return;
+      }
 
-      if (isDefaultArcProfile) {
-        setProfile(defaultArcProfile);
-      } else if (localProfile) {
-        setProfile(localProfile);
+      if (data) {
+        const row = data as ProfileRow;
+
+        if (row.username && row.display_name && isAddress(row.recipient_wallet)) {
+          setProfile(mapProfileRow(row));
+        } else {
+          setProfile(isDefaultArcProfile ? defaultArcProfile : null);
+          setLoadError("This profile has an invalid recipient wallet.");
+        }
       } else {
-        setProfile(null);
+        setProfile(isDefaultArcProfile ? defaultArcProfile : null);
       }
 
       setIsLoading(false);
-    });
+    }
+
+    loadProfile();
 
     return () => {
       isMounted = false;
@@ -96,7 +112,7 @@ export function TipJarPageClient({ username }: TipJarPageClientProps) {
           <section className="mt-10 rounded-lg border border-white/10 bg-white/[0.06] p-8 text-center">
             <h1 className="text-3xl font-bold">Tip jar not found</h1>
             <p className="mt-4 text-slate-300">
-              This tip jar was not found in local demo storage.
+              {loadError ?? "This tip jar was not found."}
             </p>
             <Link
               href="/create"
@@ -156,13 +172,6 @@ export function TipJarPageClient({ username }: TipJarPageClientProps) {
                 ) : null}
               </div>
             </div>
-
-            {!isDefaultArcProfile ? (
-              <p className="mt-5 rounded-lg border border-amber-300/25 bg-amber-300/10 p-3 text-sm leading-6 text-amber-100">
-                Profile data is stored locally for this MVP. Shareable cloud
-                profiles will be added next.
-              </p>
-            ) : null}
 
             <div className="mt-6 grid gap-3 border-t border-white/10 pt-6 sm:grid-cols-2">
               <div className="rounded-lg bg-slate-950/70 p-4">

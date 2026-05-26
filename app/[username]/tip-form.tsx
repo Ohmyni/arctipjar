@@ -61,6 +61,9 @@ export function TipForm({ profile }: TipFormProps) {
   const isBusy = status !== "idle" && status !== "sent";
   const hasContract = Boolean(contractAddress && isAddress(contractAddress));
   const hasCreator = Boolean(creatorAddress && isAddress(creatorAddress));
+  const isCreatorWallet =
+    Boolean(address && hasCreator) &&
+    address?.toLowerCase() === creatorAddress.toLowerCase();
   const contractExplorerUrl = `${ARC_EXPLORER_URL}/address/${ARCTIPJAR_CONTRACT_ADDRESS}`;
 
   const amountInBaseUnits = (() => {
@@ -76,6 +79,9 @@ export function TipForm({ profile }: TipFormProps) {
     if (!isCorrectNetwork) return "Switch to Arc Testnet to send a tip.";
     if (!hasContract) return "ArcTipJar contract address is not configured.";
     if (!hasCreator) return "Recipient wallet is not configured for this tip jar.";
+    if (isCreatorWallet) {
+      return "You are connected with the creator wallet. Use another wallet to test sending a tip.";
+    }
     if (amountInBaseUnits <= BigInt(0)) return "Enter an amount greater than 0.";
     if (new TextEncoder().encode(message).length > 280) {
       return "Message must be 280 bytes or less.";
@@ -104,6 +110,9 @@ export function TipForm({ profile }: TipFormProps) {
     }
     if (!hasCreator) {
       return "Recipient wallet is not configured for this tip jar.";
+    }
+    if (isCreatorWallet) {
+      return "You are connected with the creator wallet. Use another wallet to test sending a tip.";
     }
     if (amountInBaseUnits <= BigInt(0)) {
       return "Enter an amount greater than 0.";

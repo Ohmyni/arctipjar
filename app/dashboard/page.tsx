@@ -37,6 +37,10 @@ export default function DashboardPage() {
             Dashboard stats are read from Arc Testnet TipSent events emitted by
             the deployed ArcTipJar contract.
           </p>
+          <p className="mt-3 max-w-2xl rounded-lg border border-cyan-300/20 bg-cyan-300/10 p-4 text-sm leading-6 text-cyan-50">
+            Creator-specific dashboards will be added after wallet-based
+            profile ownership.
+          </p>
           <div className="mt-4 max-w-2xl">
             <ArcTestnetNotice />
           </div>
