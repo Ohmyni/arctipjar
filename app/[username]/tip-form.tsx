@@ -267,6 +267,11 @@ export function TipForm({ profile }: TipFormProps) {
         </div>
       ) : null}
 
+      <p className="mt-4 rounded-lg border border-white/10 bg-slate-950/70 p-3 text-sm leading-6 text-slate-400">
+        Mobile users can connect with WalletConnect or open this page inside
+        their wallet browser.
+      </p>
+
       <p
         className={`mt-5 rounded-lg border p-3 text-sm ${
           !disabledReason && !isBusy

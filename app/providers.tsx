@@ -4,10 +4,18 @@ import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { http, WagmiProvider } from "wagmi";
-import { arc } from "@/lib/chains";
+import { ARC_RPC_URL, arc } from "@/lib/chains";
 
 const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
-const walletConnectProjectIdFallback = "ARC_TIPJAR_DEMO_ONLY";
+const walletConnectProjectIdFallback = "00000000000000000000000000000000";
+const isProductionCiBuild =
+  process.env.NODE_ENV === "production" && process.env.CI === "true";
+
+if (!walletConnectProjectId && isProductionCiBuild) {
+  throw new Error(
+    "NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is required for production wallet connection.",
+  );
+}
 
 const config = getDefaultConfig({
   appName: "ArcTipJar",
@@ -15,8 +23,16 @@ const config = getDefaultConfig({
   appUrl: "https://arctipjar.vercel.app",
   projectId: walletConnectProjectId ?? walletConnectProjectIdFallback,
   chains: [arc],
+  walletConnectParameters: {
+    metadata: {
+      name: "ArcTipJar",
+      description: "Simple USDC tip jars on Arc",
+      url: "https://arctipjar.vercel.app",
+      icons: ["https://arctipjar.vercel.app/favicon.ico"],
+    },
+  },
   transports: {
-    [arc.id]: http(),
+    [arc.id]: http(ARC_RPC_URL),
   },
   ssr: true,
 });
@@ -27,7 +43,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!walletConnectProjectId) {
       console.warn(
-        "NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is missing. ArcTipJar is using a demo fallback; set a real WalletConnect project ID before deploying wallet connection to production.",
+        "WalletConnect project ID is missing. Mobile wallet connection may not work.",
       );
     }
   }, []);
@@ -35,7 +51,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider initialChain={arc}>{children}</RainbowKitProvider>
+        <RainbowKitProvider initialChain={arc} locale="en-US">
+          {children}
+        </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
