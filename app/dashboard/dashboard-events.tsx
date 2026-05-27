@@ -19,6 +19,9 @@ const publicClient = createPublicClient({
   transport: http(ARC_RPC_URL),
 });
 
+const DASHBOARD_LOG_BLOCK_RANGE = BigInt(9000);
+const DASHBOARD_LOG_BLOCK_RANGE_LABEL = "9,000";
+
 type TipEvent = {
   sender: string;
   creator: string;
@@ -26,6 +29,8 @@ type TipEvent = {
   message: string;
   timestamp: bigint;
   txHash: string;
+  blockNumber: bigint;
+  logIndex: number;
 };
 
 function shortenAddress(address: string) {
@@ -53,9 +58,10 @@ export function DashboardEvents() {
 
       try {
         const blockNumber = await publicClient.getBlockNumber();
-        const recentWindow = BigInt(50000);
         const fromBlock =
-          blockNumber > recentWindow ? blockNumber - recentWindow : BigInt(0);
+          blockNumber > DASHBOARD_LOG_BLOCK_RANGE
+            ? blockNumber - DASHBOARD_LOG_BLOCK_RANGE
+            : BigInt(0);
         const logs = await publicClient.getLogs({
           address: ARCTIPJAR_CONTRACT_ADDRESS,
           event: tipSentEvent,
@@ -74,18 +80,23 @@ export function DashboardEvents() {
               message: log.args.message ?? "",
               timestamp: log.args.timestamp ?? BigInt(0),
               txHash: log.transactionHash,
+              blockNumber: log.blockNumber,
+              logIndex: log.logIndex,
             }))
             .filter((event) => event.sender && event.creator)
-            .reverse(),
+            .sort((left, right) => {
+              if (left.blockNumber === right.blockNumber) {
+                return right.logIndex - left.logIndex;
+              }
+
+              return left.blockNumber > right.blockNumber ? -1 : 1;
+            }),
         );
       } catch (caughtError) {
         if (!isMounted) return;
 
-        setError(
-          caughtError instanceof Error
-            ? caughtError.message
-            : "Could not load Arc Testnet tip events.",
-        );
+        console.error(caughtError);
+        setError("Could not load recent onchain tips. Try again later.");
       } finally {
         if (isMounted) {
           setIsLoading(false);
@@ -141,6 +152,9 @@ export function DashboardEvents() {
             <p className="mt-1 text-sm text-slate-400">
               Onchain tips from the ArcTipJar contract.
             </p>
+            <p className="mt-1 text-xs text-slate-500">
+              Dashboard currently reads recent Arc Testnet events only.
+            </p>
           </div>
           <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-100">
             Onchain
@@ -160,10 +174,12 @@ export function DashboardEvents() {
           </div>
         ) : events.length === 0 ? (
           <div className="px-5 py-16 text-center">
-            <p className="text-lg font-semibold text-white">No tips yet</p>
+            <p className="text-lg font-semibold text-white">
+              No recent tips found
+            </p>
             <p className="mt-2 text-slate-400">
-              TipSent events from the ArcTipJar contract will appear here after
-              the first confirmed tip.
+              No recent tips found in the latest{" "}
+              {DASHBOARD_LOG_BLOCK_RANGE_LABEL} blocks.
             </p>
           </div>
         ) : (
