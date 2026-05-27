@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "ArcTipJar",
-  description: "Create a USDC tip jar on Arc.",
+  description: "Simple USDC tip jars on Arc Testnet.",
 };
 
 export default function RootLayout({
