@@ -37,6 +37,9 @@ export default function DashboardPage() {
             Onchain tips from the ArcTipJar contract appear here as TipSent
             events from Arc Testnet.
           </p>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">
+            Showing recent onchain TipSent events from the ArcTipJar contract.
+          </p>
           <p className="mt-3 max-w-2xl rounded-lg border border-cyan-300/20 bg-cyan-300/10 p-4 text-sm leading-6 text-cyan-50">
             Creator-specific dashboards will be added after wallet-based
             profile ownership.

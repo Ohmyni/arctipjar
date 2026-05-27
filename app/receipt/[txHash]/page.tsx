@@ -70,6 +70,20 @@ export default async function ReceiptPage({ params }: ReceiptPageProps) {
           >
             View on ArcScan
           </a>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <Link
+              href="/arc"
+              className="rounded-lg border border-white/15 px-5 py-3 text-center font-semibold text-slate-100 transition hover:bg-white/10"
+            >
+              Back to tip jar
+            </Link>
+            <Link
+              href="/dashboard"
+              className="rounded-lg border border-white/15 px-5 py-3 text-center font-semibold text-slate-100 transition hover:bg-white/10"
+            >
+              View dashboard
+            </Link>
+          </div>
           <p className="mt-4 text-center text-sm text-slate-400">
             ArcTipJar shows verified transaction links only. Sender, recipient,
             and amount details can be inspected on ArcScan.

@@ -149,6 +149,9 @@ export function TipJarPageClient({ username }: TipJarPageClientProps) {
 
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <section className="rounded-lg border border-white/10 bg-white/[0.06] p-6">
+            <span className="mb-5 inline-flex rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-xs font-semibold text-emerald-100">
+              Live on Arc Testnet
+            </span>
             <div className="flex items-start gap-5">
               <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-cyan-300 text-3xl font-black text-slate-950">
                 {initial}

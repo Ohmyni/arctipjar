@@ -52,6 +52,24 @@ const steps = [
   },
 ];
 
+const testSteps = [
+  "Connect wallet",
+  "Add Arc Testnet",
+  "Create or open a tip jar",
+  "Send a USDC testnet tip",
+  "View receipt on ArcScan",
+];
+
+const footerLinks = [
+  { label: "Live app", href: "https://arctipjar.vercel.app" },
+  { label: "GitHub", href: "https://github.com/Ohmyni/arctipjar" },
+  {
+    label: "Contract on ArcScan",
+    href: "https://testnet.arcscan.app/address/0xB65396797aeC75F7B4a0e2661af16319f8D8FfF9",
+  },
+  { label: "ArcScan explorer", href: "https://testnet.arcscan.app" },
+];
+
 function Logo() {
   return (
     <Link href="/" className="flex items-center gap-3">
@@ -94,9 +112,14 @@ export default function Home() {
 
       <section className="mx-auto grid max-w-7xl gap-12 px-6 pb-20 pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:pt-24">
         <div>
-          <p className="inline-flex rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-sm font-medium text-cyan-100">
-            Simple USDC tip jars on Arc
-          </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="inline-flex rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-sm font-medium text-cyan-100">
+              Simple USDC tip jars on Arc
+            </p>
+            <p className="inline-flex rounded-full border border-emerald-300/25 bg-emerald-300/10 px-4 py-2 text-sm font-semibold text-emerald-100">
+              Live on Arc Testnet
+            </p>
+          </div>
           <h1 className="mt-6 max-w-4xl text-5xl font-bold tracking-tight text-white md:text-7xl">
             Create a USDC tip jar on Arc.
           </h1>
@@ -214,10 +237,53 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="rounded-lg border border-white/10 bg-white/[0.05] p-6">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-200">
+            How to test
+          </p>
+          <h2 className="mt-3 text-3xl font-bold md:text-4xl">
+            Try the Arc Testnet flow end to end.
+          </h2>
+          <div className="mt-6 grid gap-3 md:grid-cols-5">
+            {testSteps.map((step, index) => (
+              <div
+                key={step}
+                className="rounded-lg border border-white/10 bg-slate-950/70 p-4"
+              >
+                <p className="text-xs font-bold text-cyan-200">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <p className="mt-2 text-sm font-semibold text-slate-100">
+                  {step}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <footer className="border-t border-white/10 px-6 py-8">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
-          <p>ArcTipJar. Simple USDC tip jars on Arc.</p>
-          <p>Live on Arc Testnet with Supabase profiles and ArcScan receipts.</p>
+        <div className="mx-auto flex max-w-7xl flex-col gap-5 text-sm text-slate-400 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p>ArcTipJar. Simple USDC tip jars on Arc.</p>
+            <p className="mt-1">
+              Live on Arc Testnet with Supabase profiles and ArcScan receipts.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-4">
+            {footerLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                className="font-medium text-slate-300 transition hover:text-cyan-200"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
         </div>
       </footer>
     </main>
